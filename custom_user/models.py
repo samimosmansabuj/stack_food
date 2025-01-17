@@ -1,8 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
-from django.db.models.signals import post_save
-from django.dispatch import receiver
+# from django.db.models.signals import post_save
+# from django.dispatch import receiver
 
 class User(AbstractUser):
     USER_TYPE_CHOICES = (
@@ -29,7 +29,11 @@ class NormalUser(models.Model):
         return self.full_name
     
 
-
+class Restaurant(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="restaurant_profile")
+    restaurant_name = models.CharField(max_length=255)
+    restaurant_phone_number = models.CharField(max_length=14)
+    is_approved = models.BooleanField(default=False)
 
 # @receiver(post_save, sender=User)
 # def create_normal_user_profile(sender, instance, created, **kwargs):
